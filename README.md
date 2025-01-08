@@ -28,25 +28,25 @@ Automatic Status Updates: The event status is automatically updated based on the
    
 2. **Create a Virtual Environment**
    
-    python -m venv venv
+    `python -m venv venv`
 
 3. **Activate the Virtual Environment**
 
     On Windows:
 
-    .\venv\Scripts\activate
+    `.\venv\Scripts\activate`
 
     On macOS/Linux:
 
-    source venv/bin/activate
+    `source venv/bin/activate`
 
 4. **Install the Required Packages**
 
-    pip install -r requirements.txt
+    `pip install -r requirements.txt`
 
 5. **Run the FastAPI Application**
 
-    uvicorn main:app --reload
+    `uvicorn main:app --reload`
 
 6. **Access the API Documentation**
 
@@ -56,7 +56,7 @@ Automatic Status Updates: The event status is automatically updated based on the
 
     Use the pytest command to run the tests:
 
-    pytest
+    `pytest`
 
 **Contact**
 
