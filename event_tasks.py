@@ -18,15 +18,19 @@ def update_event_statuses(db: Session):
         eventmodels.Event.start_time <= current_time,
         eventmodels.Event.end_time > current_time,
         eventmodels.Event.status == eventmodels.EventStatus.scheduled
-    ).update({eventmodels.Event.status: eventmodels.EventStatus.ongoing}, synchronize_session=False)
-    logger.info(f"Updated {ongoing_events} events to 'ongoing'")
+    ).all()
+    for event in ongoing_events:
+        event.status = eventmodels.EventStatus.ongoing
+        logger.info(f"Event {event.event_id} status updated to 'ongoing'")
 
     # Update events to 'completed' if the current time is past the end time
     completed_events = db.query(eventmodels.Event).filter(
         eventmodels.Event.end_time <= current_time,
         eventmodels.Event.status.in_([eventmodels.EventStatus.scheduled, eventmodels.EventStatus.ongoing])
-    ).update({eventmodels.Event.status: eventmodels.EventStatus.completed}, synchronize_session=False)
-    logger.info(f"Updated {completed_events} events to 'completed'")
+    ).all()
+    for event in completed_events:
+        event.status = eventmodels.EventStatus.completed
+        logger.info(f"Event {event.event_id} status updated to 'completed'")
 
     db.commit()
 
