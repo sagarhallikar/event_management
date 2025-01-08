@@ -47,6 +47,9 @@ def register_attendee(event_id: int, attendee: schemas.AttendeeCreate, db: Sessi
         raise HTTPException(status_code=404, detail="Event not found")
     if len(event.attendees) >= event.max_attendees:
         raise HTTPException(status_code=400, detail="Event is full")
+    existing_attendee = db.query(eventmodels.Attendee).filter(eventmodels.Attendee.email == attendee.email).first()
+    if existing_attendee:
+        raise HTTPException(status_code=400, detail="Email already registered")
     db_attendee = eventmodels.Attendee(**attendee.model_dump(), event_id=event_id)
     db.add(db_attendee)
     db.commit()
